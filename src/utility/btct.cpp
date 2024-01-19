@@ -7,15 +7,15 @@ BluetoothCryptoToolbox::BluetoothCryptoToolbox(){}
 //    In step 2, K1 is derived through the following operation:
 //    If the most significant bit of L is equal to 0, K1 is the left-shift
 //    of L by 1 bit.
-//    Otherwise, K1 is the exclusive-OR of const_Rb and the left-shift of L
+//    Otherwise, K1 is the exclusive-OR of constRb and the left-shift of L
 //    by 1 bit.
 //    In step 3, K2 is derived through the following operation:
 //    If the most significant bit of K1 is equal to 0, K2 is the left-shift
 //    of K1 by 1 bit.
-//    Otherwise, K2 is the exclusive-OR of const_Rb and the left-shift of
+//    Otherwise, K2 is the exclusive-OR of constRb and the left-shift of
 //    K1 by 1 bit.
 //    In step 4, (K1,K2) := Generate_Subkey(K) is returned.
-unsigned char const_Rb[16] = {
+unsigned char constRb[16] = {
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x87
   };
@@ -247,14 +247,14 @@ void BluetoothCryptoToolbox::generateSubkey(uint8_t* key, uint8_t* K1, uint8_t* 
     } else {    /* Else K1 = ( L << 1 ) (+) Rb */
 
         leftshift_onebit(L,tmp);
-        xor_128(tmp,const_Rb,K1);
+        xor_128(tmp,constRb,K1);
     }
 
     if ( (K1[0] & 0x80) == 0 ) {
         leftshift_onebit(K1,K2);
     } else {
         leftshift_onebit(K1,tmp);
-        xor_128(tmp,const_Rb,K2);
+        xor_128(tmp,constRb,K2);
     }
     return;
 }
